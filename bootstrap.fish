@@ -37,6 +37,7 @@ brew_install git
 brew_install mise
 brew_install lazygit
 brew_install tree
+brew_install tmux
 
 # Latest Xcode via xcodes (prompts for Apple ID; large download).
 if test (count (xcodes installed 2>/dev/null)) -eq 0
