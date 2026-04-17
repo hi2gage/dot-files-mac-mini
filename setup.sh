@@ -58,6 +58,15 @@ if ! grep -qxF "$FISH_BIN" /etc/shells; then
   echo "$FISH_BIN" | sudo tee -a /etc/shells >/dev/null
 fi
 
+# Make fish the default login shell for this user.
+CURRENT_SHELL="$(dscl . -read "$HOME" UserShell 2>/dev/null | awk '{print $2}')"
+if [ "$CURRENT_SHELL" != "$FISH_BIN" ]; then
+  echo "🐟 Setting fish as default login shell (may prompt for password)..."
+  chsh -s "$FISH_BIN"
+else
+  echo "✅ fish already the default login shell."
+fi
+
 # Claude Code
 if ! command -v claude &>/dev/null; then
   echo "🤖 Installing Claude Code..."
