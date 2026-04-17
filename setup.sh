@@ -58,6 +58,14 @@ if ! grep -qxF "$FISH_BIN" /etc/shells; then
   echo "$FISH_BIN" | sudo tee -a /etc/shells >/dev/null
 fi
 
+# Claude Code
+if ! command -v claude &>/dev/null; then
+  echo "🤖 Installing Claude Code..."
+  curl -fsSL https://claude.ai/install.sh | bash
+else
+  echo "✅ Claude Code already installed."
+fi
+
 # Hand off to the fish stage.
 FISH_BOOTSTRAP="$HOME/bootstrap.fish"
 if [ ! -f "$FISH_BOOTSTRAP" ]; then

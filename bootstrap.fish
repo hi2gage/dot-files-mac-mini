@@ -1,9 +1,7 @@
 #!/usr/bin/env fish
 #
 # Mac Mini CI/CD bootstrap — stage 2 (fish).
-# Runs after ci-setup.sh has installed brew + fish.
-
-set -l REPO_DEFAULT "hi2gage/dot-files"
+# Runs after setup.sh has installed brew + fish.
 
 echo "🐟 Mac Mini CI/CD setup — stage 2"
 
@@ -42,6 +40,14 @@ brew_install tree
 
 # Docker Desktop (provides docker CLI + daemon).
 brew_install_cask docker
+
+# Claude Code.
+if not command -q claude
+    echo "🤖 Installing Claude Code..."
+    curl -fsSL https://claude.ai/install.sh | bash
+else
+    echo "✅ Claude Code already installed."
+end
 
 # GitHub Actions self-hosted runner.
 set -l RUNNER_DIR "$HOME/actions-runner"
