@@ -38,6 +38,14 @@ brew_install mise
 brew_install lazygit
 brew_install tree
 
+# Latest Xcode via xcodes (prompts for Apple ID; large download).
+if test (count (xcodes installed 2>/dev/null)) -eq 0
+    echo "🧰 Installing latest Xcode (this is slow and needs your Apple ID)..."
+    xcodes install --latest --select
+else
+    echo "✅ Xcode already installed."
+end
+
 # Docker Desktop (provides docker CLI + daemon).
 brew_install_cask docker
 
