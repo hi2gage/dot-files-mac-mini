@@ -68,6 +68,9 @@ brew_install_cask docker
 # Tailscale (remote access).
 brew_install_cask tailscale
 
+# iTerm2.
+brew_install_cask iterm2
+
 # Claude Code — installs to ~/.local/bin/claude, which isn't on fish's PATH
 # by default, so check the binary path directly instead of `command -q`.
 set -l CLAUDE_BIN $HOME/.local/bin/claude
