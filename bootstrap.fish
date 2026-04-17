@@ -62,14 +62,6 @@ swift build --package-path $XCODES_SRC -c release
 sudo cp -f $XCODES_SRC/.build/release/xcodes $XCODES_BIN
 echo "✅ xcodes installed at $XCODES_BIN"
 
-# Latest Xcode via xcodes (prompts for Apple ID / hardware key; large download).
-if test (count (xcodes installed 2>/dev/null)) -eq 0
-    echo "🧰 Installing latest Xcode (slow, needs Apple ID / security key)..."
-    xcodes install --latest --select
-else
-    echo "✅ Xcode already installed."
-end
-
 # Docker Desktop (provides docker CLI + daemon).
 brew_install_cask docker
 
@@ -150,3 +142,6 @@ echo "       ./svc.sh start"
 echo ""
 echo "  3. Authenticate gh if you want runner management from the CLI:"
 echo "       gh auth login"
+echo ""
+echo "  4. Install the latest Xcode (interactive — FIDO2 key supported):"
+echo "       xcodes install --latest --select"
