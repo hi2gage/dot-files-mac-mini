@@ -49,6 +49,14 @@ else
     echo "✅ Claude Code already installed."
 end
 
+# ~/Dev workspace.
+if not test -d $HOME/Dev
+    echo "📁 Creating ~/Dev..."
+    mkdir $HOME/Dev
+else
+    echo "✅ ~/Dev already exists."
+end
+
 # GitHub Actions self-hosted runner.
 set -l RUNNER_DIR "$HOME/actions-runner"
 if test -f "$RUNNER_DIR/config.sh"
