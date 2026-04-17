@@ -25,6 +25,14 @@ curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files-mac-mini/main/set
 
 Idempotent — safe to re-run.
 
+## Optional: strip Apple bloat
+
+```bash
+fish remove-apps.fish
+```
+
+Removes Keynote, Numbers, Pages, GarageBand, iMovie. Requires sudo.
+
 ## Manual follow-up
 
 The runner registration needs a secret token, so it's left for you to run:
