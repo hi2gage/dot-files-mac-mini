@@ -32,16 +32,39 @@ end
 
 # Core CI tools.
 brew_install gh
-brew_install xcodes
 brew_install git
 brew_install mise
 brew_install lazygit
 brew_install tree
 brew_install tmux
 
-# Latest Xcode via xcodes (prompts for Apple ID; large download).
+# xcodes — custom build from hi2gage/xcodes#add_LibFido2Swift (FIDO2/hardware
+# security key auth support). PR: https://github.com/XcodesOrg/xcodes/pull/387
+if brew list --formula xcodes &>/dev/null
+    echo "🧹 Removing brew xcodes (switching to FIDO2 build)..."
+    brew uninstall xcodes
+end
+
+set -l XCODES_SRC $HOME/Dev/xcodes
+set -l XCODES_BIN /opt/homebrew/bin/xcodes
+if not test -d $XCODES_SRC
+    echo "📥 Cloning hi2gage/xcodes (add_LibFido2Swift)..."
+    git clone -b add_LibFido2Swift https://github.com/hi2gage/xcodes.git $XCODES_SRC
+else
+    echo "🔄 Updating xcodes source..."
+    git -C $XCODES_SRC fetch origin add_LibFido2Swift
+    git -C $XCODES_SRC checkout add_LibFido2Swift
+    git -C $XCODES_SRC pull --ff-only
+end
+
+echo "🧰 Building xcodes (swift build -c release)..."
+swift build --package-path $XCODES_SRC -c release
+sudo cp -f $XCODES_SRC/.build/release/xcodes $XCODES_BIN
+echo "✅ xcodes installed at $XCODES_BIN"
+
+# Latest Xcode via xcodes (prompts for Apple ID / hardware key; large download).
 if test (count (xcodes installed 2>/dev/null)) -eq 0
-    echo "🧰 Installing latest Xcode (this is slow and needs your Apple ID)..."
+    echo "🧰 Installing latest Xcode (slow, needs Apple ID / security key)..."
     xcodes install --latest --select
 else
     echo "✅ Xcode already installed."
