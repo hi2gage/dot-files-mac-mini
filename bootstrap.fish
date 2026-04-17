@@ -78,8 +78,6 @@ else
     echo "✅ Claude Code already installed."
 end
 
-# Persist ~/.local/bin on fish PATH (universal variable — survives new shells).
-fish_add_path $HOME/.local/bin
 
 # ~/Dev workspace.
 if not test -d $HOME/Dev
@@ -121,6 +119,13 @@ else
     rm "$RUNNER_DIR/$tarball"
     echo "✅ Runner extracted to $RUNNER_DIR."
 end
+
+# Fish shell setup — fetch fresh and run.
+set -l SETUP_FISH $HOME/setup-fish.fish
+echo "⬇️  Fetching setup-fish.fish..."
+curl -fsSL https://raw.githubusercontent.com/hi2gage/dot-files-mac-mini/main/setup-fish.fish -o $SETUP_FISH
+chmod +x $SETUP_FISH
+fish $SETUP_FISH
 
 echo ""
 echo "🎉 Stage 2 complete."
