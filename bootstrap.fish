@@ -49,6 +49,9 @@ end
 # Docker Desktop (provides docker CLI + daemon).
 brew_install_cask docker
 
+# Tailscale (remote access).
+brew_install_cask tailscale
+
 # Claude Code.
 if not command -q claude
     echo "🤖 Installing Claude Code..."
