@@ -59,10 +59,18 @@ if ! grep -qxF "$FISH_BIN" /etc/shells; then
 fi
 
 # Make fish the default login shell for this user.
+# Use `sudo dscl` instead of `chsh` — chsh tries to prompt on stdin, which
+# doesn't work when this script is run via `curl | bash`.
 CURRENT_SHELL="$(dscl . -read "$HOME" UserShell 2>/dev/null | awk '{print $2}')"
 if [ "$CURRENT_SHELL" != "$FISH_BIN" ]; then
-  echo "🐟 Setting fish as default login shell (may prompt for password)..."
-  chsh -s "$FISH_BIN"
+  echo "🐟 Setting fish as default login shell (sudo)..."
+  sudo dscl . -create "$HOME" UserShell "$FISH_BIN"
+  NEW_SHELL="$(dscl . -read "$HOME" UserShell 2>/dev/null | awk '{print $2}')"
+  if [ "$NEW_SHELL" = "$FISH_BIN" ]; then
+    echo "✅ Login shell is now $FISH_BIN (takes effect on next login)."
+  else
+    echo "⚠️  Login shell still $NEW_SHELL — try manually: sudo chsh -s $FISH_BIN $USER"
+  fi
 else
   echo "✅ fish already the default login shell."
 fi
