@@ -75,21 +75,11 @@ else
   echo "✅ fish already the default login shell."
 fi
 
-# Claude Code
-if ! command -v claude &>/dev/null; then
-  echo "🤖 Installing Claude Code..."
-  curl -fsSL https://claude.ai/install.sh | bash
-else
-  echo "✅ Claude Code already installed."
-fi
-
-# Hand off to the fish stage.
+# Hand off to the fish stage. Always fetch fresh so updates propagate.
 FISH_BOOTSTRAP="$HOME/bootstrap.fish"
-if [ ! -f "$FISH_BOOTSTRAP" ]; then
-  echo "⬇️  Downloading bootstrap.fish..."
-  curl -fsSL "$REPO_RAW/bootstrap.fish" -o "$FISH_BOOTSTRAP"
-  chmod +x "$FISH_BOOTSTRAP"
-fi
+echo "⬇️  Fetching bootstrap.fish..."
+curl -fsSL "$REPO_RAW/bootstrap.fish" -o "$FISH_BOOTSTRAP"
+chmod +x "$FISH_BOOTSTRAP"
 
 echo "➡️  Handing off to bootstrap.fish"
 exec "$FISH_BIN" "$FISH_BOOTSTRAP"

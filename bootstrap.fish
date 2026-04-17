@@ -76,13 +76,18 @@ brew_install_cask docker
 # Tailscale (remote access).
 brew_install_cask tailscale
 
-# Claude Code.
-if not command -q claude
+# Claude Code — installs to ~/.local/bin/claude, which isn't on fish's PATH
+# by default, so check the binary path directly instead of `command -q`.
+set -l CLAUDE_BIN $HOME/.local/bin/claude
+if not test -x $CLAUDE_BIN
     echo "🤖 Installing Claude Code..."
     curl -fsSL https://claude.ai/install.sh | bash
 else
     echo "✅ Claude Code already installed."
 end
+
+# Persist ~/.local/bin on fish PATH (universal variable — survives new shells).
+fish_add_path $HOME/.local/bin
 
 # ~/Dev workspace.
 if not test -d $HOME/Dev
